@@ -7,6 +7,8 @@ use App\Models\Book;
 use App\Models\Bookshelf;
 // use Barryvdh\DomPDF\PDF;
 use Barryvdh\DomPDF\Facade\PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BooksExport;
 
 
 class BookController extends Controller
@@ -112,5 +114,9 @@ class BookController extends Controller
         $books = Book::all();
         $pdf = PDF::loadview('books.print', ['books' => $books]);
         return $pdf->download('data_buku.pdf');
+    }
+    public function export()
+    {
+        return Excel::download(new BooksExport, 'books.xlsx');
     }
 }
